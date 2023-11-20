@@ -1,95 +1,53 @@
+'use client'
+
+import './globals.css'
 import Image from 'next/image'
-import styles from './page.module.css'
+import { sculptureList } from './data'
+import { useRef, useState, useEffect, useLayoutEffect } from 'react'
 
 export default function Home() {
+  const [index, setIndex] = useState(0)
+  const [details, setDetails] = useState(false)
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <main style={{padding: '2rem'}}>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+      {
+        <>
+          <button onClick={() => {
+            if (index < sculptureList.length-1) {
+              setIndex(index+1)
+            }
+          }} style={{padding: '.25rem', marginBottom: '1rem'}}>Próximo</button>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+          <h1>{sculptureList[index].name}</h1>
+          <h3>por {sculptureList[index].artist}</h3>
+          <p style={{paddingTop: '.5rem'}}>({index + 1} de {sculptureList.length})</p>
+          
+          <img
+            style={{padding: '2rem 0'}}
+            alt={sculptureList[index].alt}
+            src={sculptureList[index].url}
+            draggable={false}
+          />
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
+          <br/>
+          <button onClick={() => setDetails(!details)} style={{padding: '.25rem'}}>Mostrar detalhes</button>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
+          {
+            details && (<span style={
+              {
+                width: '500px', 
+                display: 'block', 
+                padding: '1rem 0'
+              }}>
+                {sculptureList[index].description}
+                </span>)
+          }
+          
+        </>
+      }
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
     </main>
   )
 }
